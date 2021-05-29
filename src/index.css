@@ -3,6 +3,10 @@ body {
   font-family: 'Roboto', sans-serif;
   padding: 20px 60px;
 }
+a{
+  text-decoration: none;
+  color: balck;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
