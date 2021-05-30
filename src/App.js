@@ -7,24 +7,50 @@ import HomePage from "./pages/home-page/homepage.component";
 import ShopPage from "./pages/shop-page/shoppage.component";
 import SignInAndSignUp from "./pages/sign-in-and-sign-up-page/sign-in-and-sign-up-page.component";
 import Header from "./components/header/header.component";
-import { auth } from "./firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      currentUser: null
-    }
+      currentUser: null,
+    };
   }
-  unSubScribeFromAuth = null
+  unSubScribeFromAuth = null;
   componentDidMount() {
-    this.unSubScribeFromAuth = auth.onAuthStateChanged(user=>{
-      this.setState({currentUser: user})
-      console.log('user',user);
-    })
+    this.unSubScribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        /**
+         * TODO if there is document we will get the user ref
+         * * if no document there we will create a new document using userAuth and return the userAuth
+         */
+        const userRef = await createUserProfileDocument(userAuth);
+
+        /**
+         * * listening to any change to the snapshot of the userRef and
+         * *set the current user accordingly
+         */
+        userRef.onSnapshot((snapshot) => {
+          this.setState(
+            {
+              currentUser: {
+                id: snapshot.id,
+                ...snapshot.data(),
+              },
+            },
+            () => {
+              console.log("current state", this.state);
+            }
+          );
+        });
+      } else {
+        // ! set current user to null
+        this.setState({ currentUser: userAuth });
+      }
+    });
   }
   componentWillUnmount() {
-    this.unSubScribeFromAuth()
+    this.unSubScribeFromAuth();
   }
   render() {
     return (
