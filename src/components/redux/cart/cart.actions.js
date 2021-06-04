@@ -1,8 +1,15 @@
-import  CartActionTypes  from "./cart.types";
+import CartActionTypes from "./cart.types";
 
-const toggleCartIcon = () => {
+export const toggleCartIcon = () => {
   return {
-    type: CartActionTypes.CART_ICON_TOGGLE
+    type: CartActionTypes.CART_ICON_TOGGLE,
   };
 };
-export default toggleCartIcon;
+
+export const addItem = (item) => {
+  return {
+    type: CartActionTypes.ADD_ITEM,
+    payload: item,
+  };
+};
+

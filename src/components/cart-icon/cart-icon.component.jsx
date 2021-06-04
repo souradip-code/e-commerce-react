@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import toggleCartIcon from "../redux/cart/cart.actions";
+import {toggleCartIcon} from "../redux/cart/cart.actions";
 
 import { ReactComponent as ShoppingBagIcon } from "../../assets/shopping-bag.svg";
 
